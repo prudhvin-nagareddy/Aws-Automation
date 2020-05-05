@@ -1,0 +1,90 @@
+resource "aws_instance" "DevOps-WebServer1" {
+ 
+  instance_type = "t2.micro"
+
+  # Lookup the correct AMI based on the region
+  # we specified
+  ami = var.aws_amis[var.aws_region]
+  tags = {
+    Name = "DevOps-WebServer1"
+  }
+  # The name of our SSH keypair we created above.
+  key_name = var.key_name
+
+  # Our Security group to allow HTTP and SSH access
+  vpc_security_group_ids = [aws_security_group.DevOps-EC2-SG.id]
+
+  # We're going to launch into the PUBLIC subnet 
+  subnet_id = "${element(aws_subnet.public-subnets.*.ids, count.index)}"
+
+  # Install Nginx while launching the Instance with help of 
+  # User-data
+  user_data = "${file("install_nginx.sh")}"
+
+}
+
+resource "aws_instance" "DevOps-WebServer2" {
+   
+  instance_type = "t2.micro"
+
+  # Lookup the correct AMI based on the region
+  # we specified
+  ami = var.aws_amis[var.aws_region]
+  tags = {
+    Name = "DevOps-WebServer2"
+  }
+  # The name of our SSH keypair we created above.
+  key_name = var.key_name
+
+  # Our Security group to allow HTTP and SSH access
+  vpc_security_group_ids = [aws_security_group.DevOps-EC2-SG.id]
+
+  # We're going to launch into the PUBLIC subnet
+  subnet_id = "${element(aws_subnet.public-subnets.*.ids, count.index)}"
+
+  # Install Apache2 while launching the Instance with help of User-data
+  user_data = "${file("install-apache.sh")}"
+
+}
+  
+resource "aws_instance" "DevOps-AppServer1" {
+    
+  instance_type = "t2.micro"
+
+  # Lookup the correct AMI based on the region
+  # we specified
+  ami = var.aws_amis[var.aws_region]
+  tags = {
+    Name = "DevOps-AppServer1"
+  }
+  # The name of our SSH keypair we created above.
+  key_name = var.key_name
+
+  # Our Security group to allow HTTP and SSH access
+  vpc_security_group_ids = [aws_security_group.DevOps-EC2-SG.id]
+
+  # We're going to launch into the PRIVATE subnet of Availability Zone-A. 
+  subnet_id = "${element(aws_subnet.private-subnets.*.ids, count.index)}"
+
+}
+
+resource "aws_instance" "DevOps-AppServer2" {
+  
+  instance_type = "t2.micro"
+
+  # Lookup the correct AMI based on the region
+  # we specified
+  ami = var.aws_amis[var.aws_region]
+  tags = {
+    Name = "DevOps-AppServer2"
+  }
+  # The name of our SSH keypair we created above.
+  key_name = var.key_name
+
+  # Our Security group to allow HTTP and SSH access
+  vpc_security_group_ids = [aws_security_group.DevOps-EC2-SG.id]
+
+  # We're going to launch into the PRIVATE subnet of Availability Zone-B
+  subnet_id = "${element(aws_subnet.private-subnets.*.ids, count.index)}"
+
+}
