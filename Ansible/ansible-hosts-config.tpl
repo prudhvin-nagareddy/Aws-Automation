@@ -1,0 +1,1 @@
+${aws_instance_private_ip} name="${host_name}" ${additional_host_options}
