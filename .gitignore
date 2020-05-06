@@ -1,4 +1,4 @@
-terraform.tfvars
+*terraform.tfvars
 Scenario1_Nat-Gateway/terrform.tfvars
 Scenario2_Nat-Instance/terraform.tfvars
 Scenario3_ELB/terraform.tfvars
