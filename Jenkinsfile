@@ -19,10 +19,7 @@ try {
         secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
       ]]) {
         ansiColor('xterm') {
-          sh """
-             cd /github/aws-automation/Scenario2_Nat-Instance/
-             terraform init -input=false
-             """
+          sh '/github/aws-automation/Scenario2_Nat-Instance/terraform init -input=false'
         }
       }
     }
