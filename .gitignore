@@ -2,3 +2,4 @@
 Scenario1_Nat-Gateway/terraform.tfvars
 Scenario2_Nat-Instance/terraform.tfvars
 Scenario3_ELB/terraform.tfvars
+*/*/.terraform
