@@ -38,10 +38,10 @@ resource "aws_internet_gateway" "DevOps-IGW" {
 
 # Create  Public Route table and provide Internet access via Internet Gateway
 resource "aws_route_table" "DevOps-Public-RT" {
-  vpc_id         = aws_vpc.DevOps-VPC.id
+    vpc_id       = "${aws_vpc.DevOps-VPC.id}"
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.DevOps-IGW.id  
+    gateway_id = "${aws_internet_gateway.DevOps-IGW.id}"  
   }
   tags = {
     Name = "DevOps-Public-RT"
@@ -50,12 +50,12 @@ resource "aws_route_table" "DevOps-Public-RT" {
 
 # Create a Private Route table and provide Interbet access via Nat-Instance
 resource "aws_route_table" "DevOps-Private-RT" {
-  vpc_id = aws_vpc.DevOps-VPC.id
+  vpc_id = "${aws_vpc.DevOps-VPC.id}"
   route {
     cidr_block = "0.0.0.0/0"
     instance_id = "${aws_instance.DevOps-Nat.id}" 
   }
-  depends on = aws_instance.DevOps-Nat.id
+  depends_on = [aws_instance.DevOps-Nat]
   tags = {
     Name = "DevOps-Private-RT"
   }
