@@ -19,7 +19,7 @@ try {
         secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
       ]]) {
         ansiColor('xterm') {
-          sh '/github/aws-automation/Scenario2_Nat-Instance/terraform init -input=false'
+          sh 'cd Scenario2_Nat-Instance;/var/lib/jenkins/terraform init -input=false'
         }
       }
     }
@@ -35,7 +35,7 @@ try {
         secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
       ]]) {
         ansiColor('xterm') {
-          sh '/github/aws-automation/Scenario2_Nat-Instance/terraform plan'
+          sh 'cd Scenario2_Nat-Instance;/var/lib/jenkins/terraform plan'
         }
       }
     }
@@ -53,7 +53,7 @@ try {
           secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
         ]]) {
           ansiColor('xterm') {
-            sh '/github/aws-automation/Scenario2_Nat-Instance/terraform apply -auto-approve'
+            sh 'cd Scenario2_Nat-Instance;/var/lib/jenkins/terraform apply -auto-approve'
           }
         }
       }
@@ -69,7 +69,7 @@ try {
           secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
         ]]) {
           ansiColor('xterm') {
-            sh '/github/aws-automation/Scenario2_Nat-Instance/terraform show'
+            sh '/cd Scenario2_Nat-Instance;/var/lib/jenkins/terraform show'
           }
         }
       }
