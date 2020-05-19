@@ -14,7 +14,7 @@ resource "aws_subnet" "public-subnet" {
   availability_zone = "${element(var.azs,count.index)}"
   map_public_ip_on_launch = "true"
   tags = {
-    Name = "DevOps-Public-Subnet"
+    Name = "DevOps-Public-Subnet${count.index + 1}"
   }
 }
 
@@ -24,8 +24,9 @@ resource "aws_subnet" "private-subnet" {
   count      = "${length(var.private_subnets_cidr)}"
   cidr_block = "${element(var.private_subnets_cidr,count.index)}"
   availability_zone = "${element(var.azs,count.index)}"
+  map_public_ip_on_launch = "false"
   tags = {
-    Name = "DevOps-Private-Subnet"
+    Name = "DevOps-Private-Subnet${count.index + 1}"
   }
 }
 
@@ -39,7 +40,7 @@ resource "aws_internet_gateway" "DevOps-IGW" {
 
 # Create  Public Route table and provide Internet access via Internet Gateway
 resource "aws_route_table" "DevOps-Public-RT" {
-    vpc_id       = "${aws_vpc.DevOps-VPC.id}"
+    vpc_id      = "${aws_vpc.DevOps-VPC.id}"
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = "${aws_internet_gateway.DevOps-IGW.id}"  
@@ -73,13 +74,13 @@ resource "aws_route_table_association" "a" {
 resource "aws_route_table_association" "b" {
   count = "${length(var.private_subnets_cidr)}"
   subnet_id      = "${element(aws_subnet.private-subnet.*.id,count.index)}"
-  route_table_id = "${aws_route_table.DevOps-Public-RT.id}"
+  route_table_id = "${aws_route_table.DevOps-Private-RT.id}"
 }
 
 # Our default security group to access
 # the instances over SSH and HTTP
 resource "aws_security_group" "DevOps-EC2-SG" {
-  name        = "terraform_example"
+  name        = "DevOps-EC2-SG"
   description = "Used in the terraform"
   vpc_id      = "${aws_vpc.DevOps-VPC.id}"
   tags = {

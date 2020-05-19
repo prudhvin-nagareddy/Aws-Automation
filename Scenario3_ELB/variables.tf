@@ -6,7 +6,7 @@
 
 variable "key_name" {
   description = "Desired name of AWS key pair"
-  default = "AwsLinuxKey"
+#  default = "AwsLinuxKey"
 }
 
 variable "access_key" {

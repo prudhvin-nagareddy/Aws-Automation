@@ -104,7 +104,7 @@ resource "aws_route_table_association" "private-b" {
 # Our default security group to access
 # the instances over SSH and HTTP
 resource "aws_security_group" "DevOps-EC2-SG" {
-  name        = "terraform_example"
+  name        = "DevOps-EC2-SG"
   description = "Used in the terraform"
   vpc_id      = aws_vpc.DevOps-VPC.id
   tags = {
