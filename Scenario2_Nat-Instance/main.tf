@@ -1,8 +1,8 @@
 # Specify the provider and access details
 provider "aws" {
-  region = var.aws_region
-  access_key = var.access_key
-  secret_key = var.secret_key
+  region = "${var.aws_region}"
+  access_key = "${var.access_key}"
+  secret_key = "${var.secret_key}"
 }
 
   # TF-UPGRADE-TODO: In Terraform v0.10 and earlier, it was sometimes necessary to force an interpolation expression to be interpreted as a list by wrapping it in an extra set of list brackets. That form was supported for compatibility in v0.11, but is no longer supported in Terraform v0.12.
@@ -13,12 +13,12 @@ resource "aws_instance" "DevOps-WebServer1" {
 
   # Lookup the correct AMI based on the region
   # we specified
-  ami = var.aws_amis[var.aws_region]
+  ami = "${var.aws_amis[var.aws_region]}"
   tags = {
     Name = "DevOps-WebServer1"
   }
   # The name of our SSH keypair we created above.
-  key_name = var.key_name
+  key_name = "${var.key_name}"
 
   # Our Security group to allow HTTP and SSH access
   vpc_security_group_ids = [aws_security_group.DevOps-EC2-SG.id]

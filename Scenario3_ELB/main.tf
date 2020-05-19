@@ -5,7 +5,7 @@ provider "aws" {
   secret_key = var.secret_key
 }
 
-  # TF-UPGRADE-TODO: In Terraform v0.10 and earlier, it was sometimes necessary to force an interpolation expression to be interpreted as a list by wrapping it in an extra set of list brackets. That form was supported for compatibility in v0.11, but is no longer supported in Terraform v0.12.
+  # In Terraform v0.10 and earlier, it was sometimes necessary to force an interpolation expression to be interpreted as a list by wrapping it in an extra set of list brackets. That form was supported for compatibility in v0.11, but is no longer supported in Terraform v0.12.
   # If the expression in the following list itself returns a list, remove the brackets to avoid interpretation as a list of lists. If the expression returns a single list item then leave it as-is and remove this TODO comment.
 
 resource "aws_instance" "DevOps-WebServer1" {
@@ -24,12 +24,12 @@ resource "aws_instance" "DevOps-WebServer1" {
   vpc_security_group_ids = [aws_security_group.DevOps-EC2-SG.id]
 
   # We're going to launch into the PUBLIC subnet 
-  subnet_id = "${aws_subnet.public-subnet.0.id}"
+  subnet_id = aws_subnet.public-subnet.0.id
 
   # Install Nginx while launching the Instance with help of 
   # User-data
   user_data = "${file("install-nginx.sh")}"
-
+#  depends_on = aws_subnet.public-subnet
 }
 
 resource "aws_instance" "DevOps-WebServer2" {
@@ -48,11 +48,11 @@ resource "aws_instance" "DevOps-WebServer2" {
   vpc_security_group_ids = [aws_security_group.DevOps-EC2-SG.id]
 
   # We're going to launch into the PUBLIC subnet
-  subnet_id = "${aws_subnet.public-subnet.1.id}"
+  subnet_id = aws_subnet.public-subnet.1.id
 
   # Install Apache2 while launching the Instance with help of User-data
   user_data = "${file("install-apache.sh")}"
-
+#  depends_on = aws_subnet.public.subnet
 }
   
 resource "aws_instance" "DevOps-AppServer1" {
@@ -71,8 +71,8 @@ resource "aws_instance" "DevOps-AppServer1" {
   vpc_security_group_ids = [aws_security_group.DevOps-EC2-SG.id]
 
   # We're going to launch into the PRIVATE subnet of Availability Zone-A. 
-  subnet_id = "${aws_subnet.private-subnet.0.id}"
-
+  subnet_id = aws_subnet.private-subnet.0.id
+#  depends_on = aws-subnet.private-subnet
   user_data = <<HEREDOC
     #!/bin/bash
     sleep 180
@@ -102,8 +102,8 @@ resource "aws_instance" "DevOps-AppServer2" {
   vpc_security_group_ids = [aws_security_group.DevOps-EC2-SG.id]
 
   # We're going to launch into the PRIVATE subnet of Availability Zone-B
-  subnet_id = "${aws_subnet.private-subnet.1.id}"
-
+  subnet_id = aws_subnet.private-subnet.1.id
+#  depends_on = aws_subnet.private-subnet
 }
 
 resource "aws_elb" "DevOps-ELB" {

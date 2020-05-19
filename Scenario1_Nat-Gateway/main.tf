@@ -30,7 +30,7 @@ resource "aws_instance" "DevOps-WebServer1" {
 
   # Install Nginx while launching the Instance with help of 
   # User-data
-  #user_data = "${file("install-nginx.sh")}"
+  user_data = "${file("../file/install-nginx.sh")}"
 }
 
 resource "aws_instance" "DevOps-WebServer2" {
@@ -52,7 +52,7 @@ resource "aws_instance" "DevOps-WebServer2" {
   subnet_id = aws_subnet.public-b.id
 
   # Install Apache2 while launching the Instance with help of User-data
-  #user_data = "${file("install-apache.sh")}"
+  user_data = "${file("../file/install-apache.sh")}"
 }
 
 resource "aws_instance" "DevOps-AppServer1" {
