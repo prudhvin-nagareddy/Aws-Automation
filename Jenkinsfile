@@ -69,7 +69,7 @@ try {
           secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
         ]]) {
           ansiColor('xterm') {
-            sh '/cd Scenario2_Nat-Instance;/var/lib/jenkins/terraform show'
+            sh 'cd Scenario2_Nat-Instance;/var/lib/jenkins/terraform show'
           }
         }
       }
